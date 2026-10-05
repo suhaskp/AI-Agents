@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Requirement Analyst Agent</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">RA</div>
+        <div class="brand-text">
+          <div class="brand-title">Requirement Analyst</div>
+          <div class="brand-sub">ServiceNow BA Agent</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="project">Project name</label>
+        <input id="project" type="text" placeholder="e.g. Incident Management Enhancement" />
+      </div>
+
+      <div class="field">
+        <label>Source files</label>
+        <div id="dropzone" class="dropzone">
+          <div class="dropzone-icon">&#8593;</div>
+          <div class="dropzone-text">Drag files here or click to browse</div>
+          <div class="dropzone-hint">PDF, DOCX, XLSX, CSV, TXT, MD, JSON, PNG, JPG</div>
+        </div>
+        <input id="fileInput" type="file" multiple hidden
+               accept=".pdf,.docx,.xlsx,.xls,.csv,.txt,.md,.json,.png,.jpg,.jpeg,.tif,.tiff" />
+        <ul id="fileList" class="file-list"></ul>
+      </div>
+
+      <button id="analyzeBtn" class="btn btn-primary btn-block" disabled>Analyze package</button>
+
+      <div id="statusLine" class="status-line"></div>
+
+      <div class="sidebar-footer">
+        <div id="configState" class="config-pill">Checking configuration…</div>
+      </div>
+    </aside>
+
+    <main class="content">
+      <div id="emptyState" class="empty-state">
+        <h1>Analyze a requirement package</h1>
+        <p>Enter a project name, add your BRD, specs, or workflow images, then select
+           <strong>Analyze package</strong>. Review the generated requirements, data model,
+           and flows before implementation — this tool assists, it does not replace, business
+           analysis judgement.</p>
+      </div>
+
+      <div id="resultView" class="result-view hidden">
+        <div class="result-header">
+          <div>
+            <div class="result-eyebrow">Analysis result</div>
+            <h1 id="resultTitle">Project</h1>
+          </div>
+          <div class="result-meta" id="resultMeta"></div>
+        </div>
+
+        <nav class="tabs" id="tabs">
+          <button class="tab active" data-tab="overview">Overview</button>
+          <button class="tab" data-tab="requirements">Requirements</button>
+          <button class="tab" data-tab="design">Solution Design</button>
+          <button class="tab" data-tab="review">Review</button>
+          <button class="tab" data-tab="export">Export</button>
+        </nav>
+
+        <section class="tab-panel" data-panel="overview">
+          <div class="metric-row">
+            <div class="metric-card"><div class="metric-value" id="mReq">0</div><div class="metric-label">Requirements</div></div>
+            <div class="metric-card"><div class="metric-value" id="mOpen">0</div><div class="metric-label">Open questions</div></div>
+            <div class="metric-card"><div class="metric-value" id="mGap">0</div><div class="metric-label">Traceability gaps</div></div>
+          </div>
+          <h3>Summary</h3>
+          <p id="summaryText" class="prose"></p>
+          <h3>Risks</h3>
+          <div id="risksTable" class="table-wrap"></div>
+        </section>
+
+        <section class="tab-panel hidden" data-panel="requirements">
+          <h3>Requirements</h3>
+          <div id="requirementsTable" class="table-wrap"></div>
+          <h3>User stories</h3>
+          <div id="storiesTable" class="table-wrap"></div>
+        </section>
+
+        <section class="tab-panel hidden" data-panel="design">
+          <h3>Data model</h3>
+          <div id="dataModelTable" class="table-wrap"></div>
+          <h3>Roles &amp; ACL</h3>
+          <div id="rolesTable" class="table-wrap"></div>
+          <h3>Flows</h3>
+          <div id="flowsTable" class="table-wrap"></div>
+          <h3>Integrations</h3>
+          <div id="integrationsTable" class="table-wrap"></div>
+          <h3>Recommendations</h3>
+          <div id="recommendationsTable" class="table-wrap"></div>
+        </section>
+
+        <section class="tab-panel hidden" data-panel="review">
+          <h3>Open questions</h3>
+          <div id="openQuestionsTable" class="table-wrap"></div>
+          <h3>Traceability gaps</h3>
+          <div id="gapsTable" class="table-wrap"></div>
+          <h3>Uploaded files</h3>
+          <div id="manifestTable" class="table-wrap"></div>
+        </section>
+
+        <section class="tab-panel hidden" data-panel="export">
+          <p class="prose">Download the analysis for downstream tools. Review the content before
+             using it to build ServiceNow configuration.</p>
+          <div class="export-row">
+            <button class="btn btn-secondary" data-export="json">Download JSON</button>
+            <button class="btn btn-secondary" data-export="excel">Download Excel workbook</button>
+            <button class="btn btn-secondary" data-export="word">Download Word summary</button>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
