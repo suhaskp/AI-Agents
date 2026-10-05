@@ -12,6 +12,8 @@ env/
 # Environment/secrets
 .env
 .env.*
+**/.env
+**/.env.*
 
 # PyInstaller/build output
 build/
